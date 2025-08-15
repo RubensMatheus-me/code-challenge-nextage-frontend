@@ -1,40 +1,43 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import { sendForgotPassword  } from "../../services/emailApi";
+import { sendForgotPassword} from "../../../services/emailApi";
+import { useResetPassword } from "../../../contexts/ResetPasswordContexts";
 
-const ClipboardCheck = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="m9 14 2 2 4-4"></path></svg>;
-const UserIcon = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>;
 const MailIcon = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>;
-const LockIcon = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>;
 const KeyIcon = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>;
 const ArrowLeftIcon = (props) => <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>;
 
+function ForgotPasswordScreen() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const { setEmailForReset } = useResetPassword();
 
-function ForgotPasswordScreen({setEmailForReset}) {
-    const navigate = useNavigate();
-    const [email, setEmail] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setError("");
-        setSuccess("");
-        try {
-            await sendForgotPassword(email);
-            setSuccess("Código enviado! Verifique seu e-mail.");
-            setEmailForReset(email);
-            setTimeout(() => {
-                navigate("reset-password");
-            }, 2000);
-        } catch (err) {
-            setError(err.response?.data?.message || "Erro ao enviar e-mail.");
-        } finally {
-            setLoading(false);
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    if (!email) {
+      setError("Por favor, insira um e-mail válido.");
+      setLoading(false);
+      return;
+    }
+    try {
+      await sendForgotPassword(email);
+      setSuccess("Se este e-mail existir, você receberá um código de recuperação.");
+      setEmailForReset(email);
+      setTimeout(() => {
+        navigate("/verify-code");
+      }, 2000);
+    } finally {
+      setLoading(false);
+    }
+  };
 
     return (
         <div className="min-h-screen bg-cover bg-center flex items-center justify-center p-4">

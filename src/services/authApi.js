@@ -16,8 +16,14 @@ export const register = async (username, email, password, confirmedPassword) => 
     return response.data;
 }
 
-export const changePassword = async (email, password, confirmedPassword, code) => {
-    const response = await api.post("auth/change-password", {email, password, confirmedPassword, code});
+export const changePassword = async ({ email, password, confirmedPassword, code }) => {
+    const response = await api.post("/auth/change-password", {email, password, confirmedPassword, code});
+    
+    return response.data;
+};
+
+export const verifyCode = async (email, code) => {
+    const response = await api.post("/auth/verify-code", {email, code});
 
     return response.data;
 }
