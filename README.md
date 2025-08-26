@@ -53,6 +53,6 @@ jwtkey
 spring.mail
 
 # 4. Inicie o frontend
-npm run dev
+npm start
 # ou
-yarn dev
+yarn start
