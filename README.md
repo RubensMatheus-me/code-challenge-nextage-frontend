@@ -31,7 +31,6 @@ Este projeto representa a aplicação **Frontend** do desafio de estágio. Foi d
 ## ▶️ Como Configurar e Executar o Projeto  
 
 ### Pré-requisitos  
-- Node.js (>= 18)  
 - NPM ou Yarn  
 
 ### Passos  
