@@ -21,7 +21,7 @@ Este projeto representa a aplicação **Frontend** do desafio de estágio. Foi d
 
 ## 🛠 Tecnologias Utilizadas  
 
-- **Frontend**: React, Vite/Next.js, Axios, React Router DOM, Context API  
+- **Frontend**: React, Axios, React Router DOM, Context API  
 - **Backend**: Spring Boot (Java 17)  
 - **Banco de Dados**: MySQL  
 - **Outras**: TailwindCSS, shadcn/ui, Lucide Icons  
