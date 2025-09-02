@@ -1,3 +1,5 @@
+# Task Manager
+
 Frontend - Desafio de Estágio  
 
 Este projeto representa a aplicação **Frontend** do desafio de estágio. Foi desenvolvido com **React (Vite/Next.js)** e tem como objetivo fornecer uma interface amigável e responsiva para interação com a API Backend, permitindo que os usuários gerenciem suas tarefas, realizem autenticação e façam recuperação de senha.  
